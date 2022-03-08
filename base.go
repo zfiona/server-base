@@ -21,7 +21,7 @@ func Run(mods ...module.Module) {
 		defer logger.Close()
 	}
 
-	log.Release("Leaf %v starting up", version)
+	log.Release("Base %v starting up", version)
 
 	// module
 	for i := 0; i < len(mods); i++ {
@@ -33,6 +33,6 @@ func Run(mods ...module.Module) {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, os.Kill)
 	sig := <-c
-	log.Release("Leaf closing down (signal: %v)", sig)
+	log.Release("Base closing down (signal: %v)", sig)
 	module.Destroy()
 }

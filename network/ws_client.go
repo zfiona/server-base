@@ -2,7 +2,7 @@ package network
 
 import (
 	"github.com/gorilla/websocket"
-	"server-base/log"
+	"github.com/zfiona/server-base/log"
 	"sync"
 	"time"
 )

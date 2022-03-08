@@ -1,9 +1,9 @@
 package module
 
 import (
-	"server-base/chanrpc"
-	"server-base/go"
-	"server-base/timer"
+	"github.com/zfiona/server-base/chanrpc"
+	"github.com/zfiona/server-base/go"
+	"github.com/zfiona/server-base/timer"
 	"time"
 )
 

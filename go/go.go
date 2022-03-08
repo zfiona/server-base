@@ -2,9 +2,9 @@ package g
 
 import (
 	"container/list"
+	"github.com/zfiona/server-base/conf"
+	"github.com/zfiona/server-base/log"
 	"runtime"
-	"server-base/conf"
-	"server-base/log"
 	"sync"
 )
 

@@ -2,7 +2,7 @@ package network
 
 import (
 	"net"
-	"server-base/log"
+	"github.com/zfiona/server-base/log"
 	"sync"
 	"time"
 )

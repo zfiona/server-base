@@ -1,11 +1,11 @@
 package base
 
 import (
+	"github.com/zfiona/server-base/conf"
+	"github.com/zfiona/server-base/log"
+	"github.com/zfiona/server-base/module"
 	"os"
 	"os/signal"
-	"server-base/conf"
-	"server-base/log"
-	"server-base/module"
 )
 
 const version = "1.0.0"

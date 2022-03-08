@@ -3,9 +3,9 @@ package chanrpc
 import (
 	"errors"
 	"fmt"
+	"github.com/zfiona/server-base/conf"
+	"github.com/zfiona/server-base/log"
 	"runtime"
-	"server-base/conf"
-	"server-base/log"
 )
 
 // Server one server per goroutine (goroutine not safe)

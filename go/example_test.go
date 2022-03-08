@@ -2,7 +2,7 @@ package g_test
 
 import (
 	"fmt"
-	"server-base/go"
+	"github.com/zfiona/server-base/go"
 	"time"
 )
 

@@ -2,7 +2,7 @@ package chanrpc_test
 
 import (
 	"fmt"
-	"server-base/chanrpc"
+	"github.com/zfiona/server-base/chanrpc"
 	"sync"
 )
 

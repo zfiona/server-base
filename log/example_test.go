@@ -2,7 +2,7 @@ package log_test
 
 import (
 	l "log"
-	"server-base/log"
+	"github.com/zfiona/server-base/log"
 )
 
 func Example() {

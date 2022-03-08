@@ -5,7 +5,7 @@ import (
 	"github.com/gorilla/websocket"
 	"net"
 	"net/http"
-	"server-base/log"
+	"github.com/zfiona/server-base/log"
 	"sync"
 	"time"
 )

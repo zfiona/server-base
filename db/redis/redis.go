@@ -2,7 +2,7 @@ package redis
 
 import (
 	"github.com/go-redis/redis"
-	"server-base/log"
+	"github.com/zfiona/server-base/log"
 )
 
 var (

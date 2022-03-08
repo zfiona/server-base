@@ -2,8 +2,8 @@ package timer
 
 import (
 	"runtime"
-	"server-base/conf"
-	"server-base/log"
+	"github.com/zfiona/server-base/conf"
+	"github.com/zfiona/server-base/log"
 	"time"
 )
 

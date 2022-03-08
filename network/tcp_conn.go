@@ -1,8 +1,8 @@
 package network
 
 import (
+	"github.com/zfiona/server-base/log"
 	"net"
-	"server-base/log"
 	"sync"
 )
 

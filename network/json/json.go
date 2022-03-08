@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
-	"server-base/chanrpc"
-	"server-base/log"
+	"github.com/zfiona/server-base/chanrpc"
+	"github.com/zfiona/server-base/log"
 )
 
 type Processor struct {

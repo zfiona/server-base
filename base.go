@@ -21,7 +21,7 @@ func Run(mods ...module.Module) {
 		defer logger.Close()
 	}
 
-	log.Release("Base %v starting up", version)
+	log.Release("server %v starting up", version)
 
 	// module
 	for i := 0; i < len(mods); i++ {

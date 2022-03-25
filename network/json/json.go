@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/zfiona/server-base/chanrpc"
+	"github.com/zfiona/server-base/log"
 	"reflect"
-	"server-base/chanrpc"
-	"server-base/log"
 )
 
 type Processor struct {
@@ -33,7 +33,6 @@ func NewProcessor() *Processor {
 	return p
 }
 
-// Register It's dangerous to call the method on routing or marshaling (unmarshaling)
 func (p *Processor) Register(msg interface{}) string {
 	msgType := reflect.TypeOf(msg)
 	if msgType == nil || msgType.Kind() != reflect.Ptr {
@@ -53,7 +52,7 @@ func (p *Processor) Register(msg interface{}) string {
 	return msgID
 }
 
-// SetRouter It's dangerous to call the method on routing or marshaling (unmarshaling)
+
 func (p *Processor) SetRouter(msg interface{}, msgRouter *chanrpc.Server) {
 	msgType := reflect.TypeOf(msg)
 	if msgType == nil || msgType.Kind() != reflect.Ptr {
@@ -68,7 +67,6 @@ func (p *Processor) SetRouter(msg interface{}, msgRouter *chanrpc.Server) {
 	i.msgRouter = msgRouter
 }
 
-// SetHandler It's dangerous to call the method on routing or marshaling (unmarshaling)
 func (p *Processor) SetHandler(msg interface{}, msgHandler MsgHandler) {
 	msgType := reflect.TypeOf(msg)
 	if msgType == nil || msgType.Kind() != reflect.Ptr {
@@ -83,7 +81,6 @@ func (p *Processor) SetHandler(msg interface{}, msgHandler MsgHandler) {
 	i.msgHandler = msgHandler
 }
 
-// SetRawHandler It's dangerous to call the method on routing or marshaling (unmarshaling)
 func (p *Processor) SetRawHandler(msgID string, msgRawHandler MsgHandler) {
 	i, ok := p.msgInfo[msgID]
 	if !ok {
@@ -156,7 +153,7 @@ func (p *Processor) Unmarshal(data []byte) (interface{}, error) {
 }
 
 // Marshal goroutine safe
-func (p *Processor) Marshal(msg interface{}) ([][]byte, error) {
+func (p *Processor) Marshal(msg interface{}) ([]byte, error) {
 	msgType := reflect.TypeOf(msg)
 	if msgType == nil || msgType.Kind() != reflect.Ptr {
 		return nil, errors.New("json message pointer required")
@@ -169,5 +166,5 @@ func (p *Processor) Marshal(msg interface{}) ([][]byte, error) {
 	// data
 	m := map[string]interface{}{msgID: msg}
 	data, err := json.Marshal(m)
-	return [][]byte{data}, err
+	return data, err
 }

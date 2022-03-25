@@ -2,7 +2,7 @@ package util_test
 
 import (
 	"fmt"
-	"server-base/util"
+	"github.com/zfiona/server-base/util"
 )
 
 func ExampleMap() {

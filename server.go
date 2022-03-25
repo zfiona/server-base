@@ -1,11 +1,11 @@
-package base
+package server
 
 import (
+	"github.com/zfiona/server-base/conf"
+	"github.com/zfiona/server-base/log"
+	"github.com/zfiona/server-base/module"
 	"os"
 	"os/signal"
-	"server-base/conf"
-	"server-base/log"
-	"server-base/module"
 )
 
 const version = "1.0.0"
@@ -21,7 +21,7 @@ func Run(mods ...module.Module) {
 		defer logger.Close()
 	}
 
-	log.Release("Leaf %v starting up", version)
+	log.Release("server %v starting up", version)
 
 	// module
 	for i := 0; i < len(mods); i++ {
@@ -33,6 +33,6 @@ func Run(mods ...module.Module) {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, os.Kill)
 	sig := <-c
-	log.Release("Leaf closing down (signal: %v)", sig)
 	module.Destroy()
+	log.Release("server closing down (signal: %v)", sig)
 }

@@ -10,9 +10,17 @@ var (
 	db *gorm.DB
 )
 
-func OpenDB() {
+type Config struct {
+	Account string   //"root"
+	Password string  //"123456"
+	Addr string      //"127.0.0.1:3306"
+	DbName string	 //"game"
+}
+
+func OpenDB(c *Config) {
 	fmt.Println("mysqldb->open db")
-	db1, err := gorm.Open("mysql", "root:123456@tcp(localhost:3306)/game?parseTime=true")
+	db1, err := gorm.Open("mysql",
+		fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true", c.Account, c.Password, c.Addr, c.DbName))
 	if err != nil {
 		panic("connect db error")
 	}

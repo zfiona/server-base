@@ -3,10 +3,10 @@ package log
 import (
 	"errors"
 	"fmt"
+	"github.com/zfiona/server-base/conf"
 	"log"
 	"os"
 	"path"
-	"server-base/conf"
 	"strings"
 	"time"
 )

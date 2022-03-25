@@ -6,10 +6,9 @@ import (
 
 type Agent interface {
 	WriteMsg(msg interface{})
+	Close()
 	LocalAddr() net.Addr
 	RemoteAddr() net.Addr
-	Close()
-	Destroy()
 	UserData() interface{}
 	SetUserData(data interface{})
 }

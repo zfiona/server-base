@@ -3,9 +3,9 @@ package chanrpc
 import (
 	"errors"
 	"fmt"
+	"github.com/zfiona/server-base/conf"
+	"github.com/zfiona/server-base/log"
 	"runtime"
-	"server-base/conf"
-	"server-base/log"
 )
 
 // Server one server per goroutine (goroutine not safe)
@@ -172,7 +172,7 @@ func (s *Server) Close() {
 
 	for ci := range s.ChanCall {
 		err := s.ret(ci, &RetInfo{
-			err: errors.New("chanrpc server closed"),
+			err: errors.New("chanRpc server closed"),
 		})
 		if err != nil {
 			return
@@ -211,7 +211,7 @@ func (c *Client) call(ci *CallInfo, block bool) (err error) {
 		select {
 		case c.s.ChanCall <- ci:
 		default:
-			err = errors.New("chanrpc channel full")
+			err = errors.New("chanRpc channel full")
 		}
 	}
 	return
@@ -304,7 +304,7 @@ func (c *Client) CallN(id interface{}, args ...interface{}) ([]interface{}, erro
 	return assert(ri.ret), ri.err
 }
 
-func (c *Client) asynCall(id interface{}, args []interface{}, cb interface{}, n int) {
+func (c *Client) asyncCall(id interface{}, args []interface{}, cb interface{}, n int) {
 	f, err := c.f(id, n)
 	if err != nil {
 		c.ChanAsyncRet <- &RetInfo{err: err, cb: cb}
@@ -323,7 +323,7 @@ func (c *Client) asynCall(id interface{}, args []interface{}, cb interface{}, n 
 	}
 }
 
-func (c *Client) AsynCall(id interface{}, _args ...interface{}) {
+func (c *Client) AsyncCall(id interface{}, _args ...interface{}) {
 	if len(_args) < 1 {
 		panic("callback function not found")
 	}
@@ -349,7 +349,7 @@ func (c *Client) AsynCall(id interface{}, _args ...interface{}) {
 		return
 	}
 
-	c.asynCall(id, args, cb, n)
+	c.asyncCall(id, args, cb, n)
 	c.pendingAsyncCall++
 }
 

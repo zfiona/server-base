@@ -2,7 +2,7 @@ package recordfile_test
 
 import (
 	"fmt"
-	"server-base/recordfile"
+	"github.com/zfiona/server-base/recordfile"
 )
 
 func Example() {

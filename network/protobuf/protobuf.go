@@ -5,15 +5,16 @@ import (
 	"errors"
 	"fmt"
 	"github.com/golang/protobuf/proto"
+	"github.com/zfiona/server-base/chanrpc"
+	"github.com/zfiona/server-base/log"
 	"math"
 	"reflect"
-	"server-base/chanrpc"
-	"server-base/log"
 )
 
-// Processor -------------------------
+// -------------------------
 // | id | protobuf message |
 // -------------------------
+
 type Processor struct {
 	littleEndian bool
 	msgInfo      map[uint16]*MsgInfo
@@ -98,6 +99,13 @@ func (p *Processor) SetRawHandler(id uint16, msgRawHandler MsgHandler) {
 	p.msgInfo[id].msgRawHandler = msgRawHandler
 }
 
+// Range goroutine safe
+func (p *Processor) Range(f func(id uint16, t reflect.Type)) {
+	for id, i := range p.msgInfo {
+		f(id, i.msgType)
+	}
+}
+
 // Route goroutine safe
 func (p *Processor) Route(msg interface{}, userData interface{}) error {
 	// raw
@@ -157,7 +165,7 @@ func (p *Processor) Unmarshal(data []byte) (interface{}, error) {
 }
 
 // Marshal goroutine safe
-func (p *Processor) Marshal(msg interface{}) ([][]byte, error) {
+func (p *Processor) Marshal(msg interface{}) ([]byte, error) {
 	msgType := reflect.TypeOf(msg)
 
 	// id
@@ -167,21 +175,15 @@ func (p *Processor) Marshal(msg interface{}) ([][]byte, error) {
 		return nil, err
 	}
 
-	id := make([]byte, 2)
+	buf := make([]byte, 2)
 	if p.littleEndian {
-		binary.LittleEndian.PutUint16(id, _id)
+		binary.LittleEndian.PutUint16(buf, _id)
 	} else {
-		binary.BigEndian.PutUint16(id, _id)
+		binary.BigEndian.PutUint16(buf, _id)
 	}
 
 	// data
 	data, err := proto.Marshal(msg.(proto.Message))
-	return [][]byte{id, data}, err
-}
-
-// Range goroutine safe
-func (p *Processor) Range(f func(id uint16, t reflect.Type)) {
-	for id, i := range p.msgInfo {
-		f(id, i.msgType)
-	}
+	buf = append(buf,data...)
+	return buf, err
 }

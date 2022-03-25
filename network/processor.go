@@ -6,5 +6,5 @@ type Processor interface {
 	// Unmarshal must goroutine safe
 	Unmarshal(data []byte) (interface{}, error)
 	// Marshal must goroutine safe
-	Marshal(msg interface{}) ([][]byte, error)
+	Marshal(msg interface{}) ([]byte, error)
 }

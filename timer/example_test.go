@@ -2,7 +2,7 @@ package timer_test
 
 import (
 	"fmt"
-	"server-base/timer"
+	"github.com/zfiona/server-base/timer"
 	"time"
 )
 

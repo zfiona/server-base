@@ -2,7 +2,7 @@ package chanrpc_test
 
 import (
 	"fmt"
-	"server-base/chanrpc"
+	"github.com/zfiona/server-base/chanrpc"
 	"sync"
 )
 
@@ -74,13 +74,13 @@ func Example() {
 		}
 
 		// asyn
-		c.AsynCall("f0", func(err error) {
+		c.AsyncCall("f0", func(err error) {
 			if err != nil {
 				fmt.Println(err)
 			}
 		})
 
-		c.AsynCall("f1", func(ret interface{}, err error) {
+		c.AsyncCall("f1", func(ret interface{}, err error) {
 			if err != nil {
 				fmt.Println(err)
 			} else {
@@ -88,7 +88,7 @@ func Example() {
 			}
 		})
 
-		c.AsynCall("fn", func(ret []interface{}, err error) {
+		c.AsyncCall("fn", func(ret []interface{}, err error) {
 			if err != nil {
 				fmt.Println(err)
 			} else {
@@ -96,7 +96,7 @@ func Example() {
 			}
 		})
 
-		c.AsynCall("add", 1, 2, func(ret interface{}, err error) {
+		c.AsyncCall("add", 1, 2, func(ret interface{}, err error) {
 			if err != nil {
 				fmt.Println(err)
 			} else {

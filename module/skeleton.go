@@ -1,9 +1,9 @@
 package module
 
 import (
-	"server-base/chanrpc"
-	"server-base/go"
-	"server-base/timer"
+	"github.com/zfiona/server-base/chanrpc"
+	"github.com/zfiona/server-base/go"
+	"github.com/zfiona/server-base/timer"
 	"time"
 )
 
@@ -104,13 +104,12 @@ func (s *Skeleton) AsyncCall(server *chanrpc.Server, id interface{}, args ...int
 	}
 
 	s.client.Attach(server)
-	s.client.AsynCall(id, args...)
+	s.client.AsyncCall(id, args...)
 }
 
 func (s *Skeleton) RegisterChanRPC(id interface{}, f interface{}) {
 	if s.ChanRPCServer == nil {
 		panic("invalid ChanRPCServer")
 	}
-	//log.Debug("id",id)
 	s.server.Register(id, f)
 }

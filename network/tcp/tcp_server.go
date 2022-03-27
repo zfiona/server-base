@@ -30,6 +30,7 @@ func (s *Server) Start() {
 }
 
 func (s *Server) init() {
+	log.Release("Launch TCPserver,%v",s.Addr)
 	ln, err := net.Listen("tcp", s.Addr)
 	if err != nil {
 		log.Fatal("%v", err)

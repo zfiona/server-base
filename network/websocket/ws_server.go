@@ -58,6 +58,7 @@ func (handler *WSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) Start() {
+	log.Release("Launch Webserver,%v",s.Addr)
 	ln, err := net.Listen("tcp", s.Addr)
 	if err != nil {
 		log.Fatal("%v", err)

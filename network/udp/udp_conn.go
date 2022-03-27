@@ -42,7 +42,7 @@ func (c *Conn) Close() {
 		close(c.recChan)
 		_=c.conn.Close()
 		if c.server.AgentChanRPC != nil {
-			_= c.server.AgentChanRPC.Call0("CloseAgent", c)
+			c.server.AgentChanRPC.Go("CloseAgent", c)
 		}
 		c.server.setConnsNum(1)
 	})
@@ -134,13 +134,13 @@ func (c *Conn) readLoop() {
 
 		err := c.conn.SetReadDeadline(time.Now().Add(c.server.ConnReadTimeout))
 		if err != nil {
-			log.Error("readLoop, %d",err.Error())
+			log.Error("readLoop, %v",err.Error())
 			return
 		}
 
 		p, err := c.server.MsgParser.ReadMsg(c.server.Processor,c.conn)
 		if err != nil {
-			log.Error("readLoop, %d",err.Error())
+			log.Error("readLoop, %v",err.Error())
 			return
 		}
 		c.recChan <- p

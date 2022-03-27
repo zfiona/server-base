@@ -34,11 +34,12 @@ func (s *Server) Start() {
 }
 
 func (s *Server) init() {
-	l, err := kcp.Listen(s.Addr)
+	log.Release("Launch UDPserver,%v",s.Addr)
+	ln, err := kcp.Listen(s.Addr)
 	if nil != err {
 		return
 	}
-	conn, err := l.Accept()
+	//conn, err := l.Accept()
 	if err != nil {
 		log.Error(err.Error())
 		return
@@ -52,11 +53,47 @@ func (s *Server) init() {
 	if s.Processor == nil{
 		log.Fatal("should set Processor first")
 	}
-	s.ln = l
+	s.ln = ln
 	s.exitChan = make(chan struct{})
 	s.waitGroup = &sync.WaitGroup{}
+}
 
-	//kcp setting
+func (s *Server) run() {
+	s.waitGroup.Add(1)
+	defer s.waitGroup.Done()
+
+	var tempDelay time.Duration
+	for {
+		conn, err := s.ln.Accept()
+		if err != nil {
+			if ne, ok := err.(net.Error); ok && ne.Temporary() {
+				if tempDelay == 0 {
+					tempDelay = 5 * time.Millisecond
+				} else {
+					tempDelay *= 2
+				}
+				if max := 1 * time.Second; tempDelay > max {
+					tempDelay = max
+				}
+				log.Release("accept error: %v; retrying in %v", err, tempDelay)
+				time.Sleep(tempDelay)
+				continue
+			}
+			return
+		}
+		tempDelay = 0
+
+		if s.getConnsNum()==0{
+			log.Error("too many connections")
+			_= conn.Close()
+			continue
+		}
+		setKcpSetting(conn)
+		NewConn(conn, s).run()
+	}
+}
+
+func setKcpSetting(conn net.Conn)  {
 	kcpConn := conn.(*kcp.UDPSession)
 	kcpConn.SetNoDelay(1, 50, 1, 1)
 	kcpConn.SetStreamMode(true)
@@ -64,25 +101,6 @@ func (s *Server) init() {
 	kcpConn.SetWindowSize(4096, 4096)
 	_=kcpConn.SetReadBuffer(4 * 1024 * 1024)
 	_=kcpConn.SetWriteBuffer(4 * 1024 * 1024)
-}
-
-func (s *Server) run() {
-	s.waitGroup.Add(1)
-	defer s.waitGroup.Done()
-
-	for {
-		conn, err := s.ln.Accept()
-		if err != nil {
-			continue
-		}
-
-		if s.getConnsNum()==0{
-			log.Error("too many connections")
-			_= conn.Close()
-			continue
-		}
-		NewConn(conn, s).run()
-	}
 }
 
 func (s *Server) setConnsNum(num int32) {

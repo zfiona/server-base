@@ -41,7 +41,7 @@ func (c *Conn) Close() {
 		close(c.writeChan)
 		_= c.conn.Close()
 		if c.server.AgentChanRPC != nil {
-			_= c.server.AgentChanRPC.Call0("CloseAgent", c)
+			c.server.AgentChanRPC.Go("CloseAgent", c)
 		}
 		c.server.setConnsNum(1)
 	})

@@ -89,8 +89,7 @@ func (s *Server) run() {
 }
 
 func (s *Server) setConnsNum(num int32) {
-	tmp := atomic.LoadInt32(&s.MaxConnNum) + num
-	atomic.StoreInt32(&s.MaxConnNum,tmp)
+	atomic.AddInt32(&s.MaxConnNum,num)
 }
 
 func (s *Server) getConnsNum() int32 {

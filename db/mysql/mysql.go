@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"time"
 )
 
 var (
@@ -24,6 +25,7 @@ func OpenDB(c *Config) {
 	if err != nil {
 		panic("connect db error")
 	}
+	db1.DB().SetConnMaxLifetime(59 * time.Second)
 	db = db1
 }
 

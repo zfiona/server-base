@@ -25,7 +25,7 @@ func OpenDB(c *Config) {
 	if err != nil {
 		panic("connect db error")
 	}
-	db1.DB().SetConnMaxLifetime(59 * time.Second)
+	db1.DB().SetConnMaxLifetime(120 * time.Second)
 	db = db1
 }
 

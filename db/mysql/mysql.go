@@ -20,13 +20,13 @@ type Config struct {
 
 func OpenDB(c *Config) {
 	fmt.Println("mysqldb->open db")
-	db1, err := gorm.Open("mysql",
+	var err error
+	db, err = gorm.Open("mysql",
 		fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true", c.Account, c.Password, c.Addr, c.DbName))
 	if err != nil {
 		panic("connect db error")
 	}
-	db1.DB().SetConnMaxLifetime(120 * time.Second)
-	db = db1
+	db.DB().SetConnMaxLifetime(120 * time.Second)
 }
 
 func DB() *gorm.DB {

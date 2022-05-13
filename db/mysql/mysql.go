@@ -32,3 +32,7 @@ func OpenDB(c *Config) {
 func DB() *gorm.DB {
 	return db
 }
+
+func SqlDb() *sql.DB {
+	return db.DB()
+}

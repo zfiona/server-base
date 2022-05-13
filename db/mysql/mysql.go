@@ -26,7 +26,6 @@ func OpenDB(c *Config) {
 	if err != nil {
 		panic("connect db error")
 	}
-	db.DB().SetConnMaxLifetime(120 * time.Second)
 }
 
 func DB() *gorm.DB {

@@ -1,10 +1,11 @@
 package mysql
 
 import (
+	"database/sql"
+	"errors"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"time"
 )
 
 var (
@@ -21,8 +22,8 @@ type Config struct {
 func OpenDB(c *Config) {
 	fmt.Println("mysqldb->open db")
 	var err error
-	db, err = gorm.Open("mysql",
-		fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true", c.Account, c.Password, c.Addr, c.DbName))
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=true", c.Account, c.Password, c.Addr, c.DbName)
+	db, err = gorm.Open("mysql", dsn)
 	if err != nil {
 		panic("connect db error")
 	}
@@ -34,4 +35,8 @@ func DB() *gorm.DB {
 
 func SqlDb() *sql.DB {
 	return db.DB()
+}
+
+func IsNotFound(err error) bool {
+	return errors.Is(err, gorm.ErrRecordNotFound)
 }

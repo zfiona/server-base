@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/zfiona/server-base/log"
 )
 
 var (
@@ -20,7 +21,7 @@ type Config struct {
 }
 
 func OpenDB(c *Config) {
-	fmt.Println("mysqldb->open db")
+	log.Debug("redis->open db")
 	var err error
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=true&loc=Local", c.Account, c.Password, c.Addr, c.DbName)
 	db, err = gorm.Open("mysql", dsn)

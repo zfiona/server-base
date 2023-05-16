@@ -1,7 +1,7 @@
 package redis
 
 import (
-	"github.com/go-redis/redis"
+	"github.com/redis/go-redis"
 	"github.com/zfiona/server-base/log"
 )
 
@@ -26,4 +26,8 @@ func OpenDB(c *Config) {
 
 func Db() *redis.Client {
 	return rdb
+}
+
+func IsNotFound(err error) bool {
+	return err == redis.Nil
 }
